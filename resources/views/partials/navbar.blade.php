@@ -30,12 +30,13 @@
         ->first();
         @endphp
 
-        @if ($data_guru)
+        @if ($data_guru && $data_guru->foto)
         <img class="img-profile rounded-circle" src="{{ asset('/storage/' . $data_guru->foto) }}">
         @else
-        <img class="img-profile rounded-circle" src="{{ asset('admin/img/undraw_profile.svg') }}">
+        <i class="fas fa-user-circle fa-lg " aria-hidden="true"></i>
         @endif
       </a>
+
 
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -66,15 +67,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 <script>
   moment.locale('id');
-function updateClock() {
+  function updateClock() {
     const now = moment();
     const dateString = now.format('DD MMMM YYYY'); 
     const timeString = now.format('HH:mm:ss');
-   
+
     document.getElementById('clock').textContent = dateString + ' | ' + timeString;
   }
 
-  updateClock();
+  function updateClockResponsive() {
+    updateClock(); 
 
-  setInterval(updateClock, 1000);
+    setInterval(updateClock, 1000);
+
+    window.addEventListener('resize', updateClock);
+  }
+
+  updateClockResponsive();
 </script>

@@ -29,7 +29,8 @@
     </div>
     @endif
     <label for="username" class="sr-only">Username</label>
-    <input type="text" id="username" class="form-control" placeholder="Username" name="username" required autofocus>
+    <input type="text" id="username" class="form-control mb-1" placeholder="Username" name="username" required
+      autofocus>
     <label for="password" class="sr-only">Password</label>
     <input type="password" id="password" class="form-control" placeholder="Password" required name="password">
     <div class="checkbox mb-3">

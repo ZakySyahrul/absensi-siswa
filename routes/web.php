@@ -64,7 +64,7 @@ Route::get('/login', [LoginController::class, 'login'])->middleware('guest')->na
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 //userRegister
-Route::get('/register', [LoginController::class, 'register']);
+Route::get('/register', [LoginController::class, 'register'])->name('register');
 
 Route::post('/register', [LoginController::class, 'registration']);
 

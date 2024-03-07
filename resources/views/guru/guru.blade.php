@@ -6,14 +6,14 @@ Guru
 
 @section('content')
 @foreach (['nama', 'nip', 'telepon'] as $field)
-    @if ($errors->has($field))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ $errors->first($field) }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+@if ($errors->has($field))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ $errors->first($field) }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 @endforeach
 
 
@@ -32,7 +32,7 @@ Guru
         @endcan
 
         <div class="table-responsive">
-            <table class="table table-striped table-bordered nowrap" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-striped table-bordered " id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -71,24 +71,24 @@ Guru
                             <img src="/storage/{{ $guru['foto'] }}" width="50px" height="50px" alt="">
                         </td>
                         @can('admin')
-                        <td>
-                            <a href="" class="btn btn-success btn-sm edit-button" data-toggle="modal"
-                                data-target="#edit-{{ $guru->id }}">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <form action="/guru/{{ $guru['id'] }}" method="post" style="display: inline;">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Apakah Anda yakin?')">
-                                    <i class="fas fa-trash-alt"></i> Hapus
-                                </button>
-                            </form>
+                        <td nowrap>
+                            <div class="btn-group " role="group">
+                                <a href="#" class="btn btn-success btn-sm edit-button mr-1" data-toggle="modal"
+                                    data-target="#edit-{{ $guru->id }}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="/guru/{{ $guru['id'] }}" method="post" style="display: inline;">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Apakah Anda yakin?')">
+                                        <i class="fas fa-trash-alt"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </td>
+
                         @endcan
-
-
-
                     </tr>
                     {{-- Modal Edit --}}
                     <div class="modal fade" id="edit-{{ $guru->id }}" data-backdrop="static" data-keyboard="false"

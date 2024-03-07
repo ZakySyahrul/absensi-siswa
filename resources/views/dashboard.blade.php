@@ -87,10 +87,10 @@ Dashboard
     <div class="col-md-6 mt-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Presentase Kehadiran Siswa</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Presentase Kehadiran Siswa (Pie Chart)</h6>
             </div>
             <div class="card-body">
-                <canvas id="presentaseChart"></canvas>
+                <canvas id="presentaseChart" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -98,112 +98,114 @@ Dashboard
     <div class="col-md-6 mt-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Presentase Kehadiran Siswa</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Presentase Kehadiran Siswa (Bar Chart)</h6>
             </div>
             <div class="card-body">
-                <canvas id="bar"></canvas>
+                <canvas id="barChart" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
-
 </div>
+
 <!-- Menambahkan chart untuk presentase kehadiran -->
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-            const data = {
-                labels: ['Hadir', 'Sakit', 'Izin', 'Alpa'],
-                datasets: [{
-                    label: 'Hadir',
-                    data: [{{ $totalHadir }}, 0, 0, 0],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                }, {
-                    label: 'Sakit',
-                    data: [0, {{ $totalSakit }}, 0, 0],
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                    borderColor: 'rgba(255, 159, 64, 1)',
-                    borderWidth: 1,
-                }, {
-                    label: 'Izin',
-                    data: [0, 0, {{ $totalIzin }}, 0],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                }, {
-                    label: 'Alpa',
-                    data: [0, 0, 0, {{ $totalAlpa }}],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                }]
-            };
+    var presentaseData = {
+        labels: ["Hadir", "Sakit", "Izin", "Alpa"],
+        datasets: [{
+            data: [{{ $totalHadir }}, {{ $totalSakit }}, {{ $totalIzin }}, {{ $totalAlpa }}],
+            backgroundColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-            const config = {
-                type: 'line',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Chart.js Line Chart'
-                        }
-                    },
-                    animation: { // Menambahkan animasi
-                        duration: 8000, // durasi animasi dalam milidetik
-                        easing: 'easeOutElastic' // jenis easing animasi
-                    }
-                },
-            };
+    var chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            display: true,
+            position: 'right'
+        }
+    };
 
-            const ctx = document.getElementById('presentaseChart').getContext('2d');
-            const myChart = new Chart(ctx, config);
-        });
+    var ctx = document.getElementById('presentaseChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: presentaseData,
+        options: chartOptions
+    });
 </script>
 
 <script>
-    // Data untuk chart
-        const data = {
-            labels: ['Hadir', 'Sakit', 'Izin', 'Alpa'],
+    // Data kehadiran siswa
+        var presentaseData = {
+            labels: ["Hadir", "Sakit", "Izin", "Alpa"],
             datasets: [{
-                label: 'Hadir',
-                data: [{{ $totalHadir }}, 0, 0, 0]
-            }, {
-                label: 'Sakit',
-                data: [0, {{ $totalSakit }}, 0, 0]
-            }, {
-                label: 'Izin',
-                data: [0, 0, {{ $totalIzin }}, 0]
-            }, {
-                label: 'Alpa',
-                data: [0, 0, 0, {{ $totalAlpa }}]
+                label: "Presentase Kehadiran Siswa",
+                data: [{{ $totalHadir }}, {{ $totalSakit }}, {{ $totalIzin }}, {{ $totalAlpa }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
             }]
         };
 
-        // Pengaturan chart
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                animation: { // Menambahkan animasi
-                    duration: 3000, // durasi animasi dalam milidetik
-                    easing: 'easeInBounce' // jenis easing animasi
-                }
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value) {if (value % 1 === 0) {return value;}}
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Presentase (%)'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Kategori'
+                    }
+                }]
             }
         };
 
-
-        // Membuat chart baru
-        var myChart = new Chart(
-            document.getElementById('bar'),
-            config
-        );
+        // Inisialisasi grafik
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: presentaseData,
+            options: chartOptions
+        });
 </script>
+
 @endsection

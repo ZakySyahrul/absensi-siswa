@@ -34,33 +34,38 @@ class SiswaController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreSiswaRequest $request)
-{
-    $validatedData = $request->validate([
-        'nisn' => ['required', 'unique:siswas', 'regex:/^[^a-zA-Z]*$/'],
-        'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s\'-]+$/'], 
-        'jenis_kelamin' => ['required'],
-        'kelas_id' => ['required'],
-        'telepon' => ['required', 'unique:siswas','regex:/^[^a-zA-Z]*$/'],
-    ], [
-        'nama_lengkap.regex' => 'Nama lengkap hanya boleh mengandung huruf, spasi, tanda kutip (\'), dan tanda hubung (-).',
-        'nisn.regex' => 'Nisn harus berupa angka.',
-        'telepon.regex' => 'Nomor Telepon harus berupa angka.'
-    ]);
+    {
+        $validatedData = $request->validate([
+            'nisn' => ['required', 'unique:siswas', 'regex:/^[^a-zA-Z]*$/'],
+            'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s\'-]+$/'],
+            'jenis_kelamin' => ['required'],
+            'kelas_id' => ['required'],
+            'telepon' => ['required', 'unique:siswas', 'regex:/^[^a-zA-Z]*$/'],
+        ], [
+            'nama_lengkap.regex' => 'Nama lengkap hanya boleh mengandung huruf, spasi, tanda kutip (\'), dan tanda hubung (-).',
+            'nisn.regex' => 'Nisn harus berupa angka.',
+            'telepon.regex' => 'Nomor Telepon harus berupa angka.'
+        ]);
 
-    Siswa::create($validatedData);
+        Siswa::create($validatedData);
 
-    return redirect('/siswa')->with('success', 'Tambah data siswa berhasil')->withErrors($validatedData);
-}
-
+        return redirect('/siswa')->with('success', 'Tambah data siswa berhasil')->withErrors($validatedData);
+    }
 
 
 
     public function import(Request $request)
     {
-        Excel::import(new SiswaImport, $request->file('import'));
-        return redirect('/siswa');
+        // Memeriksa apakah file yang diunggah adalah file Excel
+        if ($request->hasFile('import') && $request->file('import')->getClientOriginalExtension() == 'xlsx') {
+            // Jika benar, melakukan import data
+            Excel::import(new SiswaImport, $request->file('import'));
+            return redirect('/siswa')->with('success', 'Data berhasil di import.');
+        } else {
+            // Jika bukan file Excel, kirimkan pesan peringatan
+            return redirect('/siswa')->with('error', 'Hanya file Excel (.xlsx) yang diizinkan.');
+        }
     }
-
 
     /**
      * Display the specified resource.

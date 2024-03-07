@@ -13,18 +13,24 @@
               @php
               $nama_pengguna = auth()->user()->nama;
               $data_guru = DB::table('gurus')
-              ->join('users', 'users.nama', '=', 'gurus.nama')
-              ->where('users.nama', $nama_pengguna)
-              ->select('gurus.foto', 'gurus.telepon', 'gurus.nip')
-              ->first();
-
+                  ->join('users', 'users.nama', '=', 'gurus.nama')
+                  ->where('users.nama', $nama_pengguna)
+                  ->select('gurus.foto', 'gurus.telepon', 'gurus.nip')
+                  ->first();
+          
               $foto = $data_guru && $data_guru->foto ? asset('/storage/' . $data_guru->foto) :
-              asset('admin/img/undraw_profile.svg');
+                  asset('admin/img/undraw_profile.svg');
               @endphp
-
-              <img class="img-fluid rounded-circle profile-image" src="{{ $foto }}" alt="Profile Picture">
+          
+              @if ($data_guru && $data_guru->foto)
+                  <img class="img-fluid rounded-circle profile-image" src="{{ $foto }}" alt="Profile Picture">
+              @else
+                  <i class="fas fa-user-circle fa-4x text-muted"></i> <!-- Tampilkan ikon pengguna -->
+              @endif
+          
               <h5 class="mt-3">{{ auth()->user()->nama }}</h5>
-            </div>
+          </div>
+          
             <div class="col-md-8">
               <div class="profile-details">
                 <h3 class="mb-3">Profile Details</h3>

@@ -5,14 +5,6 @@ Presensi
 @endsection
 
 @section('content')
-{{-- <div class="form-group">
-    <select class="form-control" id="kelas_id" name="kelas_id" required>
-        <option value="" disabled selected>Pilih Kelas</option>
-        @foreach ($kelas as $data)
-        <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
-        @endforeach
-    </select>
-</div> --}}
 
 <div class="row">
     <!-- Card-->
@@ -42,7 +34,15 @@ Presensi
     </div>
 
     @endforeach
-</div>
 
+    @if(count($kelas) == 0)
+    <div class="col-12">
+        <div class="alert alert-warning" role="alert">
+            Belum ada kelas yang tersedia saat ini.
+        </div>
+    </div>
+    @endif
+
+</div>
 
 @endsection

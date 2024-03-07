@@ -23,7 +23,7 @@ Mapel
             <i class="fas fa-plus-circle me-2"></i> Tambah Data
         </button>
         <div class="table-responsive">
-            <table class="table table-striped table-bordered nowrap" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -47,18 +47,20 @@ Mapel
                         <td>{{ $mapel['nama_mapel'] }}</td>
                         <td>{{ $mapel->guru->nama }}</td>
                         <td>
-                            <a href="" class="btn btn-success btn-sm edit-button" data-toggle="modal"
-                                data-target="#edit-{{ $mapel->id }}">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <form action="/mapel/{{ $mapel['id'] }}" method="post" style="display: inline;">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Apakah Anda yakin?')">
-                                    <i class="fas fa-trash-alt"></i> Hapus
-                                </button>
-                            </form>
+                            <div class="btn-group " role="group">
+                                <a href="" class="btn btn-success btn-sm edit-button mr-1" data-toggle="modal"
+                                    data-target="#edit-{{ $mapel->id }}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="/mapel/{{ $mapel['id'] }}" method="post" style="display: inline;">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Apakah Anda yakin?')">
+                                        <i class="fas fa-trash-alt"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     {{-- Modal Edit --}}

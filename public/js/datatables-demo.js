@@ -24,12 +24,12 @@
           buttons: [
               {
                   extend: 'excelHtml5',
-                  className: 'btn-success mr-1',
+                  className: 'btn-success mr-1 mb-4',
                   title: 'Laporan Absensi Siswa'
               },
               {
                   extend: 'pdfHtml5',
-                  className: 'btn-danger',
+                  className: 'btn-danger mb-4',
                   title: 'Laporan Absensi Siswa'
               },
           ]
