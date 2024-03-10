@@ -36,14 +36,14 @@ class SiswaController extends Controller
     public function store(StoreSiswaRequest $request)
     {
         $validatedData = $request->validate([
-            'nisn' => ['required', 'unique:siswas', 'regex:/^[^a-zA-Z]*$/'],
+            'nisn' => ['required', 'unique:siswas', 'regex:/^[0-9]{1,10}$/'],
             'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s\'-]+$/'],
             'jenis_kelamin' => ['required'],
             'kelas_id' => ['required'],
             'telepon' => ['required', 'unique:siswas', 'regex:/^[^a-zA-Z]*$/'],
         ], [
             'nama_lengkap.regex' => 'Nama lengkap hanya boleh mengandung huruf, spasi, tanda kutip (\'), dan tanda hubung (-).',
-            'nisn.regex' => 'Nisn harus berupa angka.',
+            'nisn.regex' => 'Nisn harus berupa angka dan Max-10.',
             'telepon.regex' => 'Nomor Telepon harus berupa angka.'
         ]);
 
@@ -92,7 +92,7 @@ class SiswaController extends Controller
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
         $validatedData = $request->validate([
-            'nisn' => ['required', 'unique:siswas,nisn,' . $siswa->id],
+            'nisn' => ['required', 'regex:/^[0-9]{1,10}$/','unique:siswas,nisn,' . $siswa->id],
             'nama_lengkap' => ['required'],
             'jenis_kelamin' => ['required'],
             'kelas_id' => ['required'],

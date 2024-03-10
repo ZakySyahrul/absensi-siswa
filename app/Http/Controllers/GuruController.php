@@ -11,6 +11,7 @@ use App\Http\Requests\StoreGuruRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateGuruRequest;
 
+
 class GuruController extends Controller
 {
     /**
@@ -36,14 +37,14 @@ class GuruController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => ['required', 'regex:/^[^0-9]*$/'],
-            'nip' => ['required', 'unique:gurus', 'regex:/^[^a-zA-Z]*$/'],
+            'nip' => ['required', 'unique:gurus', 'regex:/^[0-9]{1,13}$/'],
             'jenis_kelamin' => ['required'],
             'telepon' => ['required', 'unique:gurus', 'regex:/^[^a-zA-Z]*$/'],
         ], [
             'nama.required' => 'Nama harus diisi.',
             'nama.regex' => 'Nama Guru tidak boleh mengandung angka.',
             'nip.required' => 'NIP harus diisi.',
-            'nip.regex' => 'NIP tidak boleh mengandung huruf.',
+            'nip.regex' => 'NIP tidak boleh mengandung huruf dan panjang Max-13.',
             'nip.unique' => 'NIP Sudah ada di daftar',
             'telepon.required' => 'Telepon harus diisi.',
             'telepon.unique' => 'Telepon sudah digunakan.',
@@ -83,7 +84,7 @@ class GuruController extends Controller
 {
     $validatedData = $request->validate([
         'nama' => ['required', 'regex:/^[^0-9]*$/'],
-        'nip' => ['required', 'unique:gurus,nip,' . $guru->id],
+        'nip' => ['required', 'regex:/^[0-9]{1,13}$/','unique:gurus,nip,' . $guru->id],
         'jenis_kelamin' => ['required'],
         'telepon' => ['required', 'unique:gurus,telepon,' . $guru->id, 'regex:/^[^a-zA-Z]*$/'],
     ]);
@@ -109,4 +110,6 @@ class GuruController extends Controller
 
         return redirect('/guru')->with('success', 'Hapus data guru berhasil');
     }
+
+    
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SiswaImportController;
 use App\Http\Controllers\PresensiSiswaController;
+use Illuminate\Auth\Events\Login;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
@@ -71,6 +72,7 @@ Route::post('/register', [LoginController::class, 'registration']);
 //userLogout
 Route::post('/logout', [LoginController::class, 'logout']);
 
+// Route::resource('/user', LoginController::class)->middleware('auth');
 //Guru
 Route::resource('/guru', GuruController::class)->middleware('auth');
 //siswa
@@ -83,6 +85,10 @@ Route::resource('/kelas', KelasController::class)->middleware('auth');
 Route::resource('/presensi', PresensiController::class)->middleware('guru');
 //presensi_siswa
 Route::resource('/presensi_siswa/{kelas}/check', PresensiSiswaController::class);
+
+Route::resource('/user', LoginController::class)->middleware('admin');
+
+
 
 Route::post('/filter-laporan', [LaporanController::class, 'filterByDate'])->name('filter.laporan');
 Route::get('/laporan', [LaporanController::class, 'index'])->middleware('auth')->name('laporan.index');

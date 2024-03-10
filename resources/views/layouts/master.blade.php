@@ -10,9 +10,27 @@
   <meta name="author" content="">
 
   <link rel="icon" href="/img/cn.png" type="image/x-icon">
-  
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+    // Inisialisasi Pusher dengan informasi yang sesuai dari .env
+    const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+        cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+        encrypted: true,
+    });
+
+    // Berlangganan ke channel 'admin-channel'
+    const channel = pusher.subscribe('admin-channel');
+
+    // Menangani event 'guru-logged-in'
+    channel.bind('guru-logged-in', function(data) {
+        // Menampilkan notifikasi atau melakukan tindakan yang sesuai
+        const alertElement = document.getElementById('alert');
+        alertElement.innerText = data.message;
+        alertElement.style.display = 'block'; // Tampilkan alert
+    });
+</script>
   <title>@yield('title')</title>
 
   <!-- Custom fonts for this template-->
@@ -115,6 +133,7 @@
 
   <!-- Page level custom scripts -->
   <script src="/js/datatables-demo.js"></script>
+  <script src="/js/pusher.js"></script>
 
 
   <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>

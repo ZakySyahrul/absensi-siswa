@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +18,6 @@ class User extends Authenticatable
      */
     protected $guarded = [
         'id',
-
     ];
 
     /**
@@ -41,12 +38,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'last_seen_at' => 'datetime',
     ];
 
-    public function mapel(): BelongsTo
+    /**
+     * Determine if the user is an admin.
+     *
+     * @return bool
+     */
+    public function IsAdmin(): bool
     {
-        return $this->belongsTo(Mapel::class, 'id', 'guru_mapel');
+        return $this->role === 'Admin';
     }
-    // auth()->user()->mapel->nama_mapel
-
+   
 }

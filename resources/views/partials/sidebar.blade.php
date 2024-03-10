@@ -96,9 +96,17 @@
     </a>
   </li>
 
-
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block bg-dark">
+  @can('admin')
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="{{ route('user.index') }}">
+      <i class="fas fa-fw fa-user text-dark"></i>
+      <span>User</span>
+    </a>
+  </li>
+  @endcan
+
 
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
